@@ -22,9 +22,6 @@ return new class extends Migration
             $table->integer('estoque')->nullable(false);
             $table->timestamps();
         });
-
-        DB::statement('ALTER TABLE produtos ADD CONSTRAINT check_nome_prod_length CHECK (CHAR_LENGTH(nome) <= 60 AND CHAR_LENGTH(nome) >= 3)');
-        DB::statement('ALTER TABLE produtos ADD CONSTRAINT check_valor_range CHECK (valor >= 2 AND valor <= 6)');
     }
 
     /**
