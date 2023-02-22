@@ -1,39 +1,52 @@
-CRUD de Produtos e Lojas
+# CRUD de Produtos e Lojas
+
 Esse repositório contém um CRUD de produtos e lojas construído em PHP com o framework Laravel. O CRUD permite a criação, leitura, atualização e exclusão de produtos e lojas, mantendo a integridade referencial entre as tabelas.
 
-Requisitos:
-PHP >= 8.0
+## Requisitos:
+PHP >= 8.1
 Composer
 MySQL
 
-Instalação:
+## Instalação:
 Faça o clone deste repositório:
 git clone https://github.com/FerGoncalvesJr/laravel-api-loja.git
 
 Entre no diretório do projeto:
+```sh
 cd laravel-api-loja
+```
+## Build + Up containers
+```sh
+./vendor/bin/sail up -d
+```
 
-Instale as dependências:
+## Instale as dependências:
+```sh
 composer install
+```
 Faça uma cópia do arquivo .env.example e renomeie-o para .env. Em seguida, edite o arquivo .env para configurar as credenciais do banco de dados.
-
+```sh
 DB_CONNECTION=mysql
 DB_HOST=mysql
 DB_PORT=3306
 DB_DATABASE=fiqon
 DB_USERNAME=sail
 DB_PASSWORD=password
+```
+## Gere a chave da aplicação:
+```sh
+./vendor/bin/sail artisan key:generate
+```
 
-Gere a chave da aplicação:
-php artisan key:generate
+## Crie as tabelas no banco de dados:
+```sh
+./vendor/bin/sail artisan migrate
+```
 
-Crie as tabelas no banco de dados:
-php artisan migrate
-
-Utilização
+## Utilização:
 Você pode utilizar o CRUD através da API RESTful disponibilizada. As rotas e parâmetros disponíveis estão descritos abaixo.
 
-Rotas
+Rotas:
 GET /api/produtos - Retorna a lista de produtos cadastrados.
 
 GET /api/produtos/{id} - Retorna as informações de um produto específico.
