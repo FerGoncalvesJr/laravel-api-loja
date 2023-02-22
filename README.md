@@ -1,66 +1,103 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+CRUD de Produtos e Lojas
+Esse repositório contém um CRUD de produtos e lojas construído em PHP com o framework Laravel. O CRUD permite a criação, leitura, atualização e exclusão de produtos e lojas, mantendo a integridade referencial entre as tabelas.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Requisitos:
+PHP >= 8.0
+Composer
+MySQL
 
-## About Laravel
+Instalação:
+Faça o clone deste repositório:
+git clone https://github.com/FerGoncalvesJr/laravel-api-loja.git
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Entre no diretório do projeto:
+cd laravel-api-loja
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Instale as dependências:
+composer install
+Faça uma cópia do arquivo .env.example e renomeie-o para .env. Em seguida, edite o arquivo .env para configurar as credenciais do banco de dados.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=fiqon
+DB_USERNAME=sail
+DB_PASSWORD=password
 
-## Learning Laravel
+Gere a chave da aplicação:
+php artisan key:generate
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Crie as tabelas no banco de dados:
+php artisan migrate
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Utilização
+Você pode utilizar o CRUD através da API RESTful disponibilizada. As rotas e parâmetros disponíveis estão descritos abaixo.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Rotas
+GET /api/produtos - Retorna a lista de produtos cadastrados.
 
-## Laravel Sponsors
+GET /api/produtos/{id} - Retorna as informações de um produto específico.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+POST /api/produtos - Cria um novo produto.
 
-### Premium Partners
+PUT /api/produtos/{id} - Atualiza as informações de um produto existente.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+DELETE /api/produtos/{id} - Deleta um produto existente.
 
-## Contributing
+GET /api/lojas - Retorna a lista de lojas cadastradas.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+GET /api/lojas/{id} - Retorna as informações de uma loja específica.
 
-## Code of Conduct
+POST /api/lojas - Cria uma nova loja.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+PUT /api/lojas/{id} - Atualiza as informações de uma loja existente.
 
-## Security Vulnerabilities
+DELETE /api/lojas/{id} - Deleta uma loja existente.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Produtos:
+Parâmetros
+nome - Nome do produto. Deve ser uma string com no mínimo 3 e no máximo 60 caracteres.
+valor - Valor do produto. Deve ser um número inteiro entre 01 e 999999.
+loja_id - ID da loja à qual o produto pertence. Deve ser um número inteiro correspondente ao ID de uma loja existente.
+ativo - Indica se o produto está ativo ou não. Deve ser um valor booleano (true ou false).
+estoque - Quantidade de unidades em estoque do produto. Deve ser um número inteiro entre 0 e 99999.
 
-## License
+Exemplo de uso
+Para criar um novo produto, envie uma requisição POST para /api/produtos com o seguinte corpo:
+{
+    "nome": "Produto Exemplo",
+    "valor": 3500,
+    "loja_id": 1,
+    "ativo": true,
+    "estoque": 50
+}
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+A resposta da requisição será um objeto JSON contendo as informações do produto criado, incluindo o ID gerado automaticamente pelo banco de dadose o campo data no formato d/m/Y:
+{
+    "id": 1,
+    "nome": "Produto Exemplo",
+    "valor": 3500,
+    "loja_id": 1,
+    "ativo": true,
+    "estoque": 50,
+    "data": "22\/02\/2023"
+}
+
+Lojas:
+Parâmetros
+nome - Nome da loja. Deve ser uma string com no mínimo 3 e no máximo 40 caracteres.
+email - Email da loja. Deve ser do tipo email e com valor unico.
+
+Exemplo de uso
+Para criar um novo produto, envie uma requisição POST para /api/lojas com o seguinte corpo:
+{
+    "nome": "Loja Exemplo",
+    "email": "exemplo@exemplo.com"
+}
+
+A resposta da requisição será um objeto JSON contendo as informações da loja criada, incluindo o ID gerado automaticamente pelo banco de dados:
+{
+    "id": 1,
+    "nome": "Loja Exemplo",
+    "email": "exemplo@exemplo.com"
+}
