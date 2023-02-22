@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\LojaResource;
 use App\Models\Loja;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 
 class LojaController extends Controller
@@ -73,19 +74,24 @@ class LojaController extends Controller
             return response()->json(['error' => 'Loja não encontrada'], 404);
         }
 
-        $validatedData = $request->validate([
-            'nome' => 'required|min:3|max:40',
+        $validator = Validator::make($request->all(),[
+            'nome' => "required|min:3|max:40|unique:lojas,nome,{$loja->id}",
             'email' => "required|email|unique:lojas,email,{$loja->id}",
         ], [
             'nome.required' => 'O campo nome é obrigatório.',
             'nome.min' => 'O campo nome deve ter no mínimo :min caracteres.',
             'nome.max' => 'O campo nome deve ter no máximo :max caracteres.',
+            'nome.unique' => 'O nome informado já está em uso.',
             'email.required' => 'O campo e-mail é obrigatório.',
             'email.email' => 'O campo e-mail deve conter um endereço de e-mail válido.',
             'email.unique' => 'O e-mail informado já está em uso.',
         ]);
 
-        $loja->update($validatedData);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], Response::HTTP_BAD_REQUEST);
+        }
+        
+        $loja->update($request->all());
 
         return new LojaResource($loja);
     }
